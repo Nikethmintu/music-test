@@ -1,21 +1,22 @@
-const { Client, Interaction } = require("discord.js");
-
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed: Embed } = require("discord.js");
+const client = new Discord.Client();
 module.exports = {
-  name: "ping",
-  description: "Get Ping of Bot",
-  type: "CHAT_INPUT",
-  /**
-   *
-   * @param {Client} client
-   * @param {Interaction} interaction
-   */
-  execute: async (client, interaction) => {
-    try {
-      const mesg = await interaction.reply({ content: "Pong!", fetchReply: true });
+	data: new SlashCommandBuilder()
+		.setName("ping")
+		.setDescription("bot latency"),
+	async execute(interaction) {
+		const commands = interaction.client.slashCommands;
+		const client = interaction.client;
 
-      await interaction.editReply({ content: `Pong!\nBot Latency: \`${mesg.createdTimestamp - interaction.createdTimestamp}ms\`, Websocket Latency: \`${client.ws.ping}ms\`` });
-    } catch (err) {
-      console.log("Something Went Wrong => ", err);
-    }
-  },
-};
+        const ping = new Discord.MessageEmbed()
+        .setTitle(':ping_pong: Pong!')
+		.addField("Bot ping:", + `${Math.floor(msg.createdTimestamp - message.createdTimestamp)}` + "ms")
+		.addField("Api ping:", + `${Math.round(client.ws.ping)}` + "ms")
+        .setColor('RANDOM')
+		.setTimestamp()
+        msg.edit(ping);
+        
+    })
+}
+}
